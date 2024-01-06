@@ -27,7 +27,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Connect to EC2 instance-01
+      - name: Connect to EC2 instance
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.INSTANCE_IP }}
