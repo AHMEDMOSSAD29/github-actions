@@ -27,7 +27,7 @@ jobs:
 
       - name: Get container IP address
         id: container
-        run: echo "::set-output name=ip::$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-container)"
+        run: echo "::set-output name=ip::$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' app)"
 
       - name: Open container in browser
         run: |
