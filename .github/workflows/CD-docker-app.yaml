@@ -1,7 +1,6 @@
 name: Docker Container CD
 
 on:
-  # workflow_dispatch:
   push:
     branches:
       - main
@@ -19,6 +18,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: run Docker container on localhost
+      - name: Run Docker container on localhost
         run: |
           docker run -d --name app -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+
+      - name: Wait for container to start
+        run: sleep 10s
+
+      - name: Get container IP address
+        id: container
+        run: echo "::set-output name=ip::$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-container)"
+
+      - name: Open container in browser
+        run: |
+          container_ip=${{ steps.container.outputs.ip }}
+          echo "Container IP: $container_ip"
+          open "http://$container_ip:3000"
