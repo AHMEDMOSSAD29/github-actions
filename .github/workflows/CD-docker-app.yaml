@@ -27,14 +27,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Connect to EC2 instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ env.INSTANCE_IP }}
-          username: ${{ env.INSTANCE_USER }}
-          key: private_key.pem
-          port: 22
-
       - name: Run Docker container on EC2 instance
         run: |
           ssh -i private_key.pem ${{ env.INSTANCE_USER }}@${{ env.INSTANCE_IP }} 'docker run -d --name app -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}'
