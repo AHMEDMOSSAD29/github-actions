@@ -10,7 +10,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   DOCKER_IMAGE_NAME: app
   DOCKER_IMAGE_TAG: v2
-  EC2_HOST: 54.92.191.170
+  EC2_HOST: 54.92.150.193
   EC2_USERNAME: ansible
 
 jobs:
@@ -37,4 +37,4 @@ jobs:
 
       - name: Run Docker container
         run: |
-          ssh ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "docker run -d --name app -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}""
+          ssh -o StrictHostKeyChecking=no ${{ env.EC2_USERNAME }}@${{ env.EC2_HOST }} "docker run -d --name app -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}""
